@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import classes from "./Home.module.css";
 
 const Home = (props) => {
+  console.log(process.env.REACT_APP_API_BASE_URL);
   return (
     <Fragment>
       <section className={classes.container}>
