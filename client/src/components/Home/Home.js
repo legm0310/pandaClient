@@ -4,7 +4,9 @@ import axios from "axios";
 import classes from "./Home.module.css";
 
 const Home = (props) => {
-  axios.get("/").then((response) => console.log(response));
+  axios
+    .get(`${process.env.REACT_APP_API_BASE_URL}/`)
+    .then((response) => console.log(response));
   return (
     <Fragment>
       <section className={classes.container}>
