@@ -7,8 +7,12 @@
 import axios from "axios";
 import { LOGIN_USER, REGISTER_USER, AUTH_USER } from "./type";
 
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE_URL,
+});
+
 export function loginUser(dataToSubmit) {
-  const request = axios
+  const request = instance
     .post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/login`, dataToSubmit)
     .then((response) => {
       console.log(response.headers);
