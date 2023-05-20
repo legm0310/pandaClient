@@ -21,6 +21,7 @@ export function login(dataToSubmit) {
   const request = axios
     .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/login", dataToSubmit)
     .then((response) => {
+      console.log(response.headers);
       let accessToken = response.headers.get("Authorization");
       localStorage.setItem("accessToken", accessToken);
       let refreshToken = response.headers.get("Set-Cookie");
