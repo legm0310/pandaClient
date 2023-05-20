@@ -17,6 +17,7 @@ function App() {
   const [purchaseCard, setPurchaseCard] = useState([]);
 
   const token = Boolean(localStorage.getItem("accessToken"));
+  console.log(token);
   const [isLoggedIn, setIsLoggedIn] = useState(token);
 
   const addProductHandler = (pName, pPrice, pImg, pExplanation) => {
