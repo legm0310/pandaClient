@@ -13,7 +13,7 @@ export function signup(dataToSubmit) {
     .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/signup", dataToSubmit)
     .then((response) => response.data)
     .catch((err) => {
-      return err.response;
+      return err;
     });
   return {
     type: SIGNUP_USER,
@@ -33,6 +33,7 @@ export function login(dataToSubmit) {
       return response.data;
     })
     .catch((err) => {
+      console.log(err.response);
       return err.response;
     });
   // 서버에 데이터를 보낸 후, 서버에서 온 데이터 저장
