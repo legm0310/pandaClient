@@ -28,7 +28,7 @@ export function signup(dataToSubmit) {
 
 export function login(dataToSubmit) {
   const request = axios
-    .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/login", dataToSubmit)
+    .post("/api/auth/login", dataToSubmit)
     .then((response) => {
       let accessToken = response.headers.get("Authorization");
       localStorage.setItem("accessToken", accessToken);
@@ -53,7 +53,7 @@ export function login(dataToSubmit) {
 
 export function logout() {
   const request = axios
-    .get(process.env.REACT_APP_API_BASE_URL + "/api/auth/logout")
+    .get("/api/auth/logout")
     .then((response) => {
       return response.data;
     })
@@ -71,7 +71,7 @@ export function auth() {
   const accessToken = localStorage.getItem("accessToken");
   const headers = { Authorization: accessToken };
   const request = axios
-    .get(process.env.REACT_APP_API_BASE_URL + "/api/auth/check", {
+    .get("/api/auth/check", {
       headers,
     })
     .then((response) => {
