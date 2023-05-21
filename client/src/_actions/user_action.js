@@ -12,7 +12,9 @@ export function signup(dataToSubmit) {
   const request = axios
     .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/signup", dataToSubmit)
     .then((response) => response.data)
-    .catch((err) => err.response.data);
+    .catch((err) => {
+      return err.response.data;
+    });
   return {
     type: SIGNUP_USER,
     payload: request,
@@ -70,7 +72,9 @@ export function auth() {
       }
       return response.data;
     })
-    .catch((err) => err.response.data);
+    .catch((err) => {
+      return err.response.data;
+    });
   return {
     type: AUTH_USER,
     payload: request,
