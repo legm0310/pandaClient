@@ -6,11 +6,15 @@
 
 import axios from "axios";
 import { SIGNUP_USER, LOGIN_USER, LOGOUT_USER, AUTH_USER } from "./type";
+
+// 'withCredentials'속성을 'true'로 설정 --> 다른 도메인(client, server)에서 발급한 쿠키 제어 가능
+// client, server 모두 설정해줘야함(cors)
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
 axios.defaults.withCredentials = true;
 
 export function signup(dataToSubmit) {
   const request = axios
-    .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/signup", dataToSubmit)
+    .post("/api/auth/signup", dataToSubmit)
     .then((response) => response.data)
     .catch((err) => {
       console.log(err.response);
@@ -30,6 +34,7 @@ export function login(dataToSubmit) {
       localStorage.setItem("accessToken", accessToken);
       let refreshToken = response.headers.get("Set-Cookie");
       document.cookie = refreshToken;
+
       return response.data;
     })
     .catch((err) => {
