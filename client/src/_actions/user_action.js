@@ -6,7 +6,7 @@
 
 import axios from "axios";
 import { SIGNUP_USER, LOGIN_USER, LOGOUT_USER, AUTH_USER } from "./type";
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 export function signup(dataToSubmit) {
   const request = axios
@@ -22,11 +22,11 @@ export function login(dataToSubmit) {
   const request = axios
     .post(
       process.env.REACT_APP_API_BASE_URL + "/api/auth/login",
-      dataToSubmit,
-      {
-        // 'withCredentials'속성을 'true'로 설정하여 요청을 보낼 때 쿠키에 토큰을 추가
-        withCredentials: true,
-      }
+      dataToSubmit
+      // {
+      //   // 'withCredentials'속성을 'true'로 설정하여 요청을 보낼 때 쿠키에 토큰을 추가
+      //   withCredentials: true,
+      // }
     )
     .then((response) => {
       console.log(response.headers);
