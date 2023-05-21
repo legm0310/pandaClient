@@ -6,7 +6,7 @@
 
 import axios from "axios";
 import { SIGNUP_USER, LOGIN_USER, LOGOUT_USER, AUTH_USER } from "./type";
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 export function signup(dataToSubmit) {
   const request = axios
