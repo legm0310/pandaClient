@@ -16,9 +16,9 @@ function App() {
 
   const token = localStorage.getItem("accessToken");
   const tokenCheck =
-    token == "undefined" || token === "null" || token === ""
-      ? false
-      : Boolean(token);
+    token !== "undefined" || token !== "null" || token !== ""
+      ? Boolean(token)
+      : false;
   console.log(tokenCheck);
 
   const [purchaseCard, setPurchaseCard] = useState([]);
