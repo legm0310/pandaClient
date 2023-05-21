@@ -34,7 +34,7 @@ export function login(dataToSubmit) {
       localStorage.setItem("accessToken", accessToken);
       let refreshToken = response.headers.get("Set-Cookie");
       document.cookie = refreshToken;
-      console.log(accessToken, refreshToken);
+      console.log(accessToken, document.cookie);
       return response.data;
     })
     .catch((error) => {
