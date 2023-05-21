@@ -53,7 +53,8 @@ const Register = (props) => {
     };
 
     dispatch(signup(body)).then((response) => {
-      if (response.payload.signupSuccess === true) {
+      console.log(payload);
+      if (response.payload.signupSuccess) {
         alert("회원 정보 입력 완료");
         navigate("/Login");
       } else {
