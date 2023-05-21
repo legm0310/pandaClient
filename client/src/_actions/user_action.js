@@ -13,7 +13,7 @@ export function signup(dataToSubmit) {
     .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/signup", dataToSubmit)
     .then((response) => response.data)
     .catch((err) => {
-      return err.response.data;
+      return err.response;
     });
   return {
     type: SIGNUP_USER,
@@ -73,7 +73,7 @@ export function auth() {
       return response.data;
     })
     .catch((err) => {
-      return err.response.data;
+      return err.response;
     });
   return {
     type: AUTH_USER,
