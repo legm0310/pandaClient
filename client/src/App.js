@@ -19,7 +19,6 @@ function App() {
     token !== "undefined" || token !== "null" || token !== ""
       ? Boolean(token)
       : false;
-  console.log(tokenCheck);
 
   const [purchaseCard, setPurchaseCard] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(tokenCheck);
