@@ -13,7 +13,8 @@ export function signup(dataToSubmit) {
     .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/signup", dataToSubmit)
     .then((response) => response.data)
     .catch((err) => {
-      return err;
+      console.log(err);
+      return err.response.data;
     });
   return {
     type: SIGNUP_USER,
@@ -25,7 +26,6 @@ export function login(dataToSubmit) {
   const request = axios
     .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/login", dataToSubmit)
     .then((response) => {
-      console.log(response.headers);
       let accessToken = response.headers.get("Authorization");
       localStorage.setItem("accessToken", accessToken);
       let refreshToken = response.headers.get("Set-Cookie");
@@ -33,8 +33,8 @@ export function login(dataToSubmit) {
       return response.data;
     })
     .catch((err) => {
-      console.log(err.response);
-      return err.response;
+      console.log(err);
+      return err.response.data;
     });
   // 서버에 데이터를 보낸 후, 서버에서 온 데이터 저장
   // ({loginSuccess: true, userId: user._id})
@@ -51,6 +51,10 @@ export function logout() {
     .get(process.env.REACT_APP_API_BASE_URL + "/api/auth/logout")
     .then((response) => {
       return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return err.response.data;
     });
   return {
     type: LOGOUT_USER,
@@ -74,7 +78,8 @@ export function auth() {
       return response.data;
     })
     .catch((err) => {
-      return err.response;
+      console.log(err);
+      return err.response.data;
     });
   return {
     type: AUTH_USER,
