@@ -11,7 +11,8 @@ axios.defaults.withCredentials = true;
 export function signup(dataToSubmit) {
   const request = axios
     .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/signup", dataToSubmit)
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((err) => err.response.data);
   return {
     type: SIGNUP_USER,
     payload: request,
@@ -27,11 +28,10 @@ export function login(dataToSubmit) {
       localStorage.setItem("accessToken", accessToken);
       let refreshToken = response.headers.get("Set-Cookie");
       document.cookie = refreshToken;
-      console.log(accessToken, document.cookie);
       return response.data;
     })
-    .catch((error) => {
-      return error.response;
+    .catch((err) => {
+      return err.response;
     });
   // 서버에 데이터를 보낸 후, 서버에서 온 데이터 저장
   // ({loginSuccess: true, userId: user._id})
