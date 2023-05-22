@@ -30,7 +30,7 @@ export function login(dataToSubmit) {
   const request = axios
     .post("/api/auth/login", dataToSubmit)
     .then((response) => {
-      let accessToken = response.headers.get("Authorization");
+      let accessToken = response.headers.authorization;
       localStorage.setItem("accessToken", accessToken);
       return response.data;
     })
@@ -60,13 +60,21 @@ export function logout() {
 
 export function auth() {
   const accessToken = localStorage.getItem("accessToken");
-  const headers = { Authorization: accessToken };
+  const config = {
+    headers: {
+      Authorization: accessToken,
+    },
+    cache: {
+      noCache: true,
+      noStore: true,
+    },
+  };
   const request = axios
     .get("/api/auth/check", {
-      headers,
+      config,
     })
     .then((response) => {
-      let newAccessToken = response.headers.get("Authorization");
+      let newAccessToken = response.headers.authorization;
       if (newAccessToken) {
         localStorage.setItem("accessToken", newAccessToken);
       }
