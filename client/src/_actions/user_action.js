@@ -63,10 +63,7 @@ export function auth() {
   const config = {
     headers: {
       Authorization: accessToken,
-    },
-    cache: {
-      noCache: true,
-      noStore: true,
+      "Cache-control": "no-cache, no-store",
     },
   };
   const request = axios
