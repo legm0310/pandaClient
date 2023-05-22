@@ -67,6 +67,7 @@ export function auth() {
     Authorization: accessToken,
     "Cache-control": "no-cache, no-store",
   };
+
   const request = axios
     .get("/api/auth/check", {
       headers,
