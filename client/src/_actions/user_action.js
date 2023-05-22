@@ -33,7 +33,7 @@ export function login(dataToSubmit) {
       let accessToken = response.headers.get("Authorization");
       localStorage.setItem("accessToken", accessToken);
       let refreshToken = response.headers.get("Set-Cookie");
-      document.cookie = refreshToken;
+      console.log(refreshToken);
 
       return response.data;
     })
@@ -75,7 +75,6 @@ export function auth() {
       headers,
     })
     .then((response) => {
-      console.log(response.headers);
       if (response.headers.get("Authorization")) {
         localStorage.removeItem("accessToken");
         let accessToken = response.headers.get("Authorization");
