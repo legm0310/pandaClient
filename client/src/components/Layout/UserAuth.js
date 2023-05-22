@@ -12,8 +12,6 @@ const UserAuth = (props) => {
 
   const onLogoutHandler = () => {
     dispatch(logout()).then((response) => {
-      // localStorage 지우기
-      localStorage.removeItem("accessToken");
       alert("로그아웃 되었습니다.");
       props.setIsLoggedIn(false);
       navigate("/");
