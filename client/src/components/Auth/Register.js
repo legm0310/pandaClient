@@ -55,7 +55,7 @@ const Register = (props) => {
     dispatch(signup(body)).then((response) => {
       if (response.payload.signupSuccess) {
         alert("회원 정보 입력 완료");
-        navigate("/Login");
+        navigate("/login");
       } else {
         alert("회원 가입에 실패했습니다.");
       }
@@ -67,7 +67,7 @@ const Register = (props) => {
       <div className={classes.wrap}>
         <div className={classes.container}>
           <header className={classes.header}>
-            <Link to="/Login" className={classes.backButton}>
+            <Link to="/login" className={classes.backButton}>
               <FaArrowLeft />
             </Link>
           </header>
