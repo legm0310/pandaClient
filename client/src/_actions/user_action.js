@@ -75,7 +75,8 @@ export function auth() {
       headers,
     })
     .then((response) => {
-      if (response.headers.authorization) {
+      console.log(response.headers);
+      if (response.headers.get("Authorization")) {
         localStorage.removeItem("accessToken");
         let accessToken = response.headers.get("Authorization");
         localStorage.setItem("accessToken", accessToken);
