@@ -60,15 +60,15 @@ export function logout() {
 
 export function auth() {
   const accessToken = localStorage.getItem("accessToken");
-  const config = {
-    headers: {
-      Authorization: accessToken,
-      "Cache-control": "no-cache, no-store",
-    },
+
+  const headers = {
+    Authorization: accessToken,
+    "Cache-control": "no-cache, no-store",
   };
+
   const request = axios
     .get("/api/auth/check", {
-      config,
+      headers,
     })
     .then((response) => {
       let newAccessToken = response.headers.authorization;
