@@ -44,8 +44,8 @@ const Login = (props) => {
         alert("로그인 성공");
         navigate("/");
       } else if (
-        response.payload.status === 404 ||
-        response.payload.status === 401
+        response.payload.code === 404 ||
+        response.payload.code === 401
       ) {
         alert("이메일 또는 비밀번호를 잘못 입력했습니다.");
       } else {
@@ -104,7 +104,7 @@ const Login = (props) => {
 
           <div className={classes.registerWrap}>
             <button type="submit" className={classes.registerButton}>
-              <Link to="/Register" className={classes.textButton}>
+              <Link to="/register" className={classes.textButton}>
                 회원가입
               </Link>
             </button>

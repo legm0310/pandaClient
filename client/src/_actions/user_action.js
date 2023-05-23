@@ -7,10 +7,19 @@
 import axios from "axios";
 import { SIGNUP_USER, LOGIN_USER, LOGOUT_USER, AUTH_USER } from "./type";
 
+// 'withCredentials'속성을 'true'로 설정 --> 다른 도메인(client, server)에서 발급한 쿠키 제어 가능
+// client, server 모두 설정해줘야함(cors)
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
+axios.defaults.withCredentials = true;
+
 export function signup(dataToSubmit) {
   const request = axios
-    .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/signup", dataToSubmit)
-    .then((response) => response.data);
+    .post("/api/auth/signup", dataToSubmit)
+    .then((response) => response.data)
+    .catch((err) => {
+      console.log(err.response);
+      return err.response.data;
+    });
   return {
     type: SIGNUP_USER,
     payload: request,
@@ -19,22 +28,16 @@ export function signup(dataToSubmit) {
 
 export function login(dataToSubmit) {
   const request = axios
-    .post(process.env.REACT_APP_API_BASE_URL + "/api/auth/login", dataToSubmit)
+    .post("/api/auth/login", dataToSubmit)
     .then((response) => {
-      let accessToken = response.headers.get("Authorization");
+      let accessToken = response.headers.authorization;
       localStorage.setItem("accessToken", accessToken);
-      let refreshToken = response.headers.get("Set-Cookie");
-      document.cookie = refreshToken;
-      console.log(accessToken, refreshToken);
       return response.data;
     })
-    .catch((error) => {
-      return error.response;
+    .catch((err) => {
+      console.log(err.response);
+      return err.response.data;
     });
-  // 서버에 데이터를 보낸 후, 서버에서 온 데이터 저장
-  // ({loginSuccess: true, userId: user._id})
-
-  // redux의 action -> 이를 dispatch를 통해 reducer로 보냄
   return {
     type: LOGIN_USER,
     payload: request,
@@ -43,12 +46,14 @@ export function login(dataToSubmit) {
 
 export function logout() {
   const request = axios
-    .get(process.env.REACT_APP_API_BASE_URL + "/api/auth/logout", {
-      // 'withCredentials'속성을 'true'로 설정하여 요청을 보낼 때 쿠키에 토큰을 추가
-      withCredentials: true,
-    })
+    .get("/api/auth/logout")
     .then((response) => {
+      localStorage.removeItem("accessToken");
       return response.data;
+    })
+    .catch((err) => {
+      console.log(err.response);
+      return err.response.data;
     });
   return {
     type: LOGOUT_USER,
@@ -58,20 +63,26 @@ export function logout() {
 
 export function auth() {
   const accessToken = localStorage.getItem("accessToken");
-  const headers = { Authorization: accessToken };
+  const headers = {
+    Authorization: accessToken,
+    "Cache-control": "no-cache, no-store",
+  };
+
   const request = axios
-    .get(process.env.REACT_APP_API_BASE_URL + "/api/auth/check", {
+    .get("/api/auth/check", {
       headers,
     })
     .then((response) => {
-      if (response.headers.authorization) {
-        localStorage.removeItem("accessToken");
-        let accessToken = response.headers.get("Authorization");
-        localStorage.setItem("accessToken", accessToken);
+      let newAccessToken = response.headers.authorization;
+      if (newAccessToken) {
+        localStorage.setItem("accessToken", newAccessToken);
       }
       return response.data;
     })
-    .catch((err) => err.response.data);
+    .catch((err) => {
+      console.log(err.response);
+      return err.response.data;
+    });
   return {
     type: AUTH_USER,
     payload: request,
