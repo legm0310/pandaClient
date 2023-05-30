@@ -3,35 +3,29 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Layout/Header";
 import Home from "./components/Home/Home";
-import Purchase from "./components/Purchase/Purchase";
+import Product from "./components/Product/Product";
 import AddProduct from "./components/AddProduct/AddProduct";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
-import DetailPurchase from "./components/Purchase/DetailPurchase";
+import Detail from "./components/Product/Detail";
 import Auth from "./hoc/auth";
 
 function App() {
   const AuthHome = Auth(Home, null);
   const AuthAddProduct = Auth(AddProduct, true);
 
-  const token = localStorage.getItem("accessToken");
-  const tokenCheck =
-    token !== "undefined" || token !== "null" || token !== ""
-      ? Boolean(token)
-      : false;
+  const [productCard, setProductCard] = useState([]);
 
-  const [purchaseCard, setPurchaseCard] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(tokenCheck);
-
-  const addProductHandler = (pName, pPrice, pImg, pExplanation) => {
-    setPurchaseCard((prevPurchaseCard) => {
+  const addProductHandler = (pName, pPrice, pImg, pExplanation, pCategory) => {
+    setProductCard((prevProductCard) => {
       return [
-        ...prevPurchaseCard,
+        ...prevProductCard,
         {
           name: pName,
           price: pPrice,
           imgFile: pImg,
           explanation: pExplanation,
+          category: pCategory,
           id: Math.random().toString(),
         },
       ];
@@ -41,27 +35,22 @@ function App() {
   return (
     <Fragment>
       <BrowserRouter>
-        <Header setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+        <Header />
         <Routes>
           <Route path="/" element={<AuthHome />}></Route>
           <Route
-            path="/purchase/"
-            element={<Purchase purchaseCard={purchaseCard} />}
+            path="/products/all"
+            element={<Product ProductCard={productCard} />}
           ></Route>
           <Route
-            path="/addProduct/"
+            path="/products/add"
             element={<AuthAddProduct onAddProduct={addProductHandler} />}
           ></Route>
-          <Route
-            path="/login"
-            element={
-              <Login setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
-            }
-          ></Route>
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route
-            path="/detailPurchase/:id"
-            element={<DetailPurchase purchaseCard={purchaseCard} />}
+            path="/detail"
+            element={<Detail ProductCard={productCard} />}
           ></Route>
         </Routes>
       </BrowserRouter>
