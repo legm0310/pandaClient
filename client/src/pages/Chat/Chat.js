@@ -75,7 +75,9 @@ const Chat = () => {
     }
     return () => {
       if (!socketRef.current) return;
-      socketRef.current?.disconnect();
+      socketRef.current.off("onReceiveSend");
+      socketRef.current.off("onReceiveRead");
+      socketRef.current.disconnect();
       socketRef.current = null;
     };
   }, [location.pathname]);
