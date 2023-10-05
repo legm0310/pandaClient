@@ -37,6 +37,7 @@ const Chat = () => {
     if (!socketRef.current) {
       const curSocket = io(apiBaseUrl, {
         cors: { origin: domain },
+        withCredentials: true,
       });
       curSocket.on("connect", () => {
         rooms?.forEach((room) => curSocket?.emit("onJoinRoom", room.id));
