@@ -1,59 +1,78 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { auth } from "./_actions/userAction";
 
-import Header from "./components/Layout/Header";
-import Home from "./components/Home/Home";
-import Product from "./components/Product/Product";
-import AddProduct from "./components/AddProduct/AddProduct";
-import Login from "./components/Auth/Login";
-import Register from "./components/Auth/Register";
-import Detail from "./components/Product/Detail";
+import Header from "./components/headers/Header";
+import Home from "./pages/Home/Home";
+import Product from "./pages/Product/Product";
+import AddProduct from "./pages/AddProduct/AddProduct";
+import Chat from "./pages/Chat/Chat";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+import Detail from "./pages/DetailProduct/Detail";
+import Notice from "./pages/Notice/Notice";
 import Auth from "./hoc/auth";
+import Loading from "./components/common/Loading";
+import ScrollTop from "./components/common/ScrollTop";
+import UserInfo from "./pages/User/UserInfo";
+import Footer from "./components/Footer/Footer";
+
+import { Backdrop } from "@mui/material";
 
 function App() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(
+    (state) => state.user.isLoggedIn,
+    shallowEqual
+  );
+  const isLoading = useSelector((state) => state.ui.isLoading, shallowEqual);
+  const [wish, setWish] = useState([]);
+
+  useEffect(() => {
+    dispatch(auth());
+  }, [dispatch]);
+
   const AuthHome = Auth(Home, null);
   const AuthAddProduct = Auth(AddProduct, true);
-
-  const [productCard, setProductCard] = useState([]);
-
-  const addProductHandler = (pName, pPrice, pImg, pExplanation, pCategory) => {
-    setProductCard((prevProductCard) => {
-      return [
-        ...prevProductCard,
-        {
-          name: pName,
-          price: pPrice,
-          imgFile: pImg,
-          explanation: pExplanation,
-          category: pCategory,
-          id: Math.random().toString(),
-        },
-      ];
-    });
-  };
+  const AuthUserInfo = Auth(UserInfo, true);
+  const AuthChat = Auth(Chat, true);
 
   return (
     <Fragment>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<AuthHome />}></Route>
-          <Route
-            path="/products/all"
-            element={<Product ProductCard={productCard} />}
-          ></Route>
-          <Route
-            path="/products/add"
-            element={<AuthAddProduct onAddProduct={addProductHandler} />}
-          ></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-          <Route
-            path="/detail"
-            element={<Detail ProductCard={productCard} />}
-          ></Route>
-        </Routes>
-      </BrowserRouter>
+      {isLoggedIn !== null ? (
+        <BrowserRouter>
+          <ScrollTop />
+          {/* <Backdrop
+            open={isLoading}
+            sx={{
+              zIndex: "tooltip",
+            }}
+          >
+            <Loading />
+          </Backdrop> */}
+          <Header />
+          <Routes>
+            <Route path="/" element={<AuthHome />}></Route>
+            <Route path="/products/all" element={<Product />}></Route>
+            <Route path="/products/add" element={<AuthAddProduct />}></Route>
+            <Route path="/chat" element={<AuthChat />}></Route>
+            <Route path="/chat/:roomId" element={<AuthChat />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/register" element={<Register />}></Route>
+            <Route path="/notice/:id" element={<Notice />}></Route>
+            <Route path="/products/:productId" element={<Detail />}></Route>
+            <Route path="/user" element={<AuthUserInfo />}></Route>
+
+            <Route path="/Loading" element={<Loading />}></Route>
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      ) : (
+        <div>
+          <Loading />
+        </div>
+      )}
     </Fragment>
   );
 }

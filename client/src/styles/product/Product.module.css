@@ -1,0 +1,31 @@
+.mainBox {
+  padding: 0 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.categoryBar {
+  position: fixed;
+  top: 100px;
+  height: 100%;
+  /* position: fixed;
+  left: 19rem;
+  top: 12rem;
+  transform: translate(1em, 12rem); */
+}
+
+.productWrap {
+  display: flex;
+  width: 1480px;
+  margin-top: 30px;
+}
+
+.detail {
+  text-decoration: none;
+}
+
+.prdouctCardWrap {
+  margin-left: 200px;
+}
