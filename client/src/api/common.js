@@ -43,6 +43,7 @@ export const interceptRes = (instance) => {
 export const baseRequest = (options) => {
   const instance = axios.create({
     baseURL: apiBaseUrl,
+    withCredentials: true,
     ...options,
   });
   const intercept = interceptRes(instance);
