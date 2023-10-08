@@ -35,9 +35,11 @@ const Chat = () => {
     // if (isEqual(rooms, roomsRef.current)) return;
     if (roomId != 0) dispatch(getRooms());
     if (!socketRef.current) {
+      //localhost:
       const curSocket = io(apiBaseUrl, {
         cors: { origin: domain },
         withCredentials: true,
+        transports: ["websocket"],
       });
       curSocket.on("connect", () => {
         rooms?.forEach((room) => curSocket?.emit("onJoinRoom", room.id));
