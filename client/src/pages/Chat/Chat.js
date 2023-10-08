@@ -37,7 +37,6 @@ const Chat = () => {
     if (!socketRef.current) {
       //localhost:
       const curSocket = io(apiBaseUrl, {
-        cors: { origin: domain },
         withCredentials: true,
         transports: ["websocket"],
       });
