@@ -36,7 +36,6 @@ const Chat = () => {
     if (roomId != 0) dispatch(getRooms());
     if (!socketRef.current) {
       const curSocket = io(apiBaseUrl, {
-        cors: { origin: domain },
         withCredentials: true,
         transports: ["websocket"],
       });
